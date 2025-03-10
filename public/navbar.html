@@ -2,24 +2,25 @@
     <li class="credits" id="credits">
         Player Picker
     </li>
-    <li>
-        <a class="active" href="./index.html">
+    <li id="nav-item" onclick="setCurrentTab('leaderboard')">
+        <a href="./leaderboard" id="leaderboard" class="active">
         Leaderboard
         </a>
     </li>
-    <li>
-        <a href="./myteam.html">
+    <li id="nav-item" onclick="setCurrentTab('myteam')">
+        <a href="./myteam" id="myteam"> 
         My Team
         </a>
     </li>
-    <li>
-        <a href="./createteam.html">
+    <li id="nav-item" onclick="setCurrentTab('createteam')">
+        <a href="./createteam" id="createteam">
         Create Team
         </a>
     </li>
-    <li class="right">
-        <a href="./profile.html">
+    <li class="right" id="nav-item" onclick="setCurrentTab('profile')">
+        <a href="./profile" id="profile">
         Profile
         </a>
     </li>
 </ul>
+<script src="./javascripts/navbar.js"></script>

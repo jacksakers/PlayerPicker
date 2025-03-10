@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Player Picker</title>
+        <link rel="stylesheet" href="./stylesheets/style.css">
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    </head>
+    <body>
+        <!--Navigation bar-->
+        <div id="nav-placeholder"></div>
+        <script>
+            $(function(){
+              $("#nav-placeholder").load("navbar.html");
+            });
+        </script>
+        <!--end of Navigation bar-->
+
+
+        <h1>My Team</h1>
+        <div id="myteam-section">
+            <h2>Believe to Acheive</h2>
+            <h3>Jack Sakers</h3>
+            <ul>
+                <li>New England Patriots
+                    <ul>
+                        <li>Tom Brady - 100</li>
+                        <li>Julian Edelman - 80</li>
+                        <li>Rob Gronkowski - 90</li>
+                    </ul>
+                </li>
+                <li>Kansas City Chiefs
+                    <ul>
+                        <li>Patrick Mahomes - 120</li>
+                        <li>Tyreek Hill - 110</li>
+                        <li>Travis Kelce - 100</li>
+                    </ul>
+                </li>
+                <li>Los Angeles Rams
+                    <ul>
+                        <li>Jared Goff - 100</li>
+                        <li>Todd Gurley - 110</li>
+                        <li>Brandin Cooks - 90</li>
+                    </ul>
+                </li>
+                <li>New Orleans Saints
+                    <ul>
+                        <li>Drew Brees - 110</li>
+                        <li>Alvin Kamara - 100</li>
+                        <li>Michael Thomas - 90</li>
+                    </ul>
+                </li>
+                <li>Chicago Bears
+                    <ul>
+                        <li>Mitchell Trubisky - 80</li>
+                        <li>Jordan Howard - 70</li>
+                        <li>Allen Robinson - 90</li>
+                    </ul>
+                </li>
+            </ul>
+            <div id="total-points">
+                Total Points: 1000
+            </div>
+        </div>
+
+
+        <script src="./javascripts/index.js"></script>
+    </body>
+</html>

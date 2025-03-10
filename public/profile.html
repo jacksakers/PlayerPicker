@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Player Picker</title>
+  <link rel="stylesheet" href="./stylesheets/style.css">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<body>
+  <!--Navigation bar-->
+  <div id="nav-placeholder"></div>
+  <script>
+    $(function () {
+      $("#nav-placeholder").load("navbar.html");
+    });
+  </script>
+  <!--end of Navigation bar-->
+
+
+  <h1>Profile</h1>
+  <div id="myteam-section">
+    <h2><input type="text" value="Believe to Acheive" id="team-name"></h2>
+    <h3><input type="text" value="Jack Sakers" id="team-owner"></h3>
+    <ul>
+      <li id="player-element">
+        <div >
+          QB:
+        </div> 
+        <input type="text" value="Tom Brady" id="qb1">
+        <input type="text" value="Patirck Mahomes" id="qb2">
+        <input type="text" value="Tom Brady" id="qb3">
+      </li>
+      <li id="player-element">
+        <div >
+          RB:
+        </div> 
+        <input type="text" value="Tom Brady" id="rb1">
+        <input type="text" value="Patirck Mahomes" id="rb2">
+        <input type="text" value="Tom Brady" id="rb3">
+      </li>
+    </ul>
+    <button id="submit-team">Submit Team</button>
+  </div>
+
+
+  <script src="./javascripts/index.js"></script>
+</body>
+
+</html>

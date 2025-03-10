@@ -47,3 +47,43 @@ ul.topnav li.right {
     /* height: 225px !important; */
   }
 }
+
+#player-element {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+input[type=text] {
+  /* width: 100%; */
+  padding: 3px 3px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+input[type=text]:focus {
+  border: 2px solid #0d0074;
+}
+
+button {
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:focus {
+  outline: none;
+}
