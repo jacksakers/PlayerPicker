@@ -8,3 +8,18 @@
   flex-direction: row;
   justify-content: space-evenly;
 }
+
+input {
+  padding: 0.5em !important;
+  margin-bottom: 5px !important;
+}
+
+select {
+  padding: 0.5em !important;
+  margin-bottom: 5px !important;
+}
+
+#myteam-section {
+  /* margin-left: 0.5em;
+  margin-right: 0.5em; */
+}
