@@ -1,12 +1,12 @@
-import { initializeApp } from "firebase/app";
-import {
+const { initializeApp } = require("firebase/app");
+const {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail,
   signOut,
-} from "firebase/auth";
-import {
+} = require("firebase/auth");
+const {
   getFirestore,
   query,
   getDocs,
@@ -15,8 +15,8 @@ import {
   collection,
   where,
   addDoc,
-} from "firebase/firestore";
-import { firebaseAPIKey } from "./apiKeys";
+} = require("firebase/firestore");
+const firebaseAPIKey = require("./apiKeys").firebaseAPIKey;
 const firebaseConfig = {
   apiKey: firebaseAPIKey,
   authDomain: "playerpicker.firebaseapp.com",
@@ -57,7 +57,7 @@ const registerWithEmailAndPassword = async (name, email, password) => {
 const logout = () => {
   signOut(auth);
 };
-export {
+module.exports = {
   auth,
   db,
   logInWithEmailAndPassword,
