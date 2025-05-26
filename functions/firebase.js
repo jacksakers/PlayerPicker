@@ -15,6 +15,7 @@ const {
   collection,
   where,
   addDoc,
+  getDoc,
 } = require("firebase/firestore");
 const firebaseAPIKey = require("./apiKeys").firebaseAPIKey;
 const firebaseConfig = {
@@ -54,13 +55,63 @@ const registerWithEmailAndPassword = async (name, email, password) => {
     alert(err.message);
   }
 };
+
+// function to check if user is logged in with firebase
+const checkUserStatus = async () => {
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      return { loggedIn: true, user: user };
+    } else {
+      return { loggedIn: false };
+    }
+  } catch (error) {
+    console.error("Error checking user status:", error);
+    return { loggedIn: false, error: error.message };
+  }
+};
+
 const logout = () => {
   signOut(auth);
 };
+
+const readDataFromFirestore = async (collectionName, documentId = null) => {
+  try {
+    const collectionRef = collection(db, collectionName);
+    if (documentId) {
+      const docRef = doc(collectionRef, documentId);
+      const docSnapshot = await getDoc(docRef);
+      const data = docSnapshot.data();
+      return data;
+    }
+    const q = query(collectionRef);
+    const querySnapshot = await getDocs(q);
+    const data = querySnapshot.docs.map((doc) => doc.data());
+    return data;
+  } catch (error) {
+    console.error("Error reading data from Firestore:", error);
+    throw error;
+  }
+};
+
+const writeDataToFirestore = async (collectionName, data) => {
+  try {
+    const collectionRef = collection(db, collectionName);
+    const docRef = await addDoc(collectionRef, data);
+    return docRef.id; // Return the ID of the newly created document
+  } catch (error) {
+    console.error("Error writing data to Firestore:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   auth,
   db,
   logInWithEmailAndPassword,
   registerWithEmailAndPassword,
   logout,
+  checkUserStatus,
+  readDataFromFirestore,
+  writeDataToFirestore,
 };

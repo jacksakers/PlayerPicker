@@ -1,46 +1,22 @@
-async function callServerFunction(functionToCall, data) {
-  try {
-    const response = await fetch('/server/run-function', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        function: functionToCall,
-        data: JSON.stringify(data),
-      }),
-    });
+import { callServerFunction, checkUserStatus, readDataFromFirestore } from './server.js';
 
-    if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-    return result;
-  } catch (error) {
-    console.error("Error calling server function:", error);
-    throw error;
+document.addEventListener('DOMContentLoaded', async function() {
+  const userStatus = await checkUserStatus();
+  console.log("User status:", userStatus);
+  // go to login page if user is not logged in
+  if (!userStatus.loggedIn) {
+    window.location.href = '/login';
+  } else {
+    // load username from Firestore and display it
+    const userData = await readDataFromFirestore('users', userStatus.user.uid);
+    console.log("User data:", userData);
+    const username = userData.name || userStatus.user.email; // Fallback to email if name is not set
+    document.getElementById('username').textContent = username;
   }
-}
+});
 
-document.getElementById('signup-button').addEventListener('click', async function() {
-  const userName = document.getElementById('username').value;
-  const userEmail = document.getElementById('email').value;
-  const userPassword = document.getElementById('password').value;
-  const userConfirmPassword = document.getElementById('confirm-password').value;
-
-  if (userPassword !== userConfirmPassword) {
-    alert("Passwords do not match!");
-    return;
-  }
-  if (userName === "" || userEmail === "" || userPassword === "") {
-    alert("Please fill in all fields!");
-    return;
-  }
-  await callServerFunction('registerWithEmailAndPassword', {
-    name: userName,
-    email: userEmail,
-    password: userPassword,
-  })
-    
+// Function to handle logout button click
+document.getElementById('logout-button').addEventListener('click', async function() {
+  await callServerFunction('logout');
+  window.location.href = '/login';
 });

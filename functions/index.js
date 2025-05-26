@@ -3,7 +3,8 @@ const functions = require('firebase-functions');
 const path = require('path');
 const cors = require('cors');
 
-const { registerWithEmailAndPassword, logInWithEmailAndPassword, logout } = require('./firebase');
+const { registerWithEmailAndPassword, logInWithEmailAndPassword, 
+  writeDataToFirestore, readDataFromFirestore, logout, checkUserStatus } = require('./firebase');
 
 const app = express();
 const port = 3000;
@@ -36,10 +37,18 @@ app.get('/profile', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'profile.html'));
 });
 
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
 app.post('/server/run-function', async (req, res) => {
   console.log('Received request:', req.body);
-  // return res.status(200).json({ message: 'Request received' });
-  const data = JSON.parse(req.body.data);
+  // Parse the data as JSON
+  let data;
+  if (req.body.data && typeof req.body.data === 'string') {
+      data = JSON.parse(req.body.data);
+  }
+  // const data = JSON.parse(req.body.data);
   try {
     switch (req.body.function) {
       case 'registerWithEmailAndPassword':
@@ -49,13 +58,12 @@ app.post('/server/run-function', async (req, res) => {
         await registerWithEmailAndPassword(name, email, password);
         break;
       case 'logInWithEmailAndPassword':
-        const { loginEmail, loginPassword } = data;
-        // Call your Firebase function here
-        // Example: await logInWithEmailAndPassword(loginEmail, loginPassword);
+        const loginEmail = data.email;
+        const loginPassword = data.password;
+        await logInWithEmailAndPassword(loginEmail, loginPassword);
         break;
       case 'logout':
-        // Call your Firebase function here
-        // Example: await logout();
+        logout();
         break;
       default:
         throw new Error('Function not recognized');
@@ -66,6 +74,51 @@ app.post('/server/run-function', async (req, res) => {
      return res.status(500).json({ error: error.message });
   }
 });
+
+app.get('/server/check-user-status', async (req, res) => {
+  try {
+    const userStatus = await checkUserStatus();
+    return res.json(userStatus);
+  } catch (error) {
+    console.error("Error checking user status:", error);
+    return res.status(500).json({ error: error.message });
+  }
+}
+);
+
+app.get('/server/read-data', async (req, res) => {
+  const collectionName = req.query.collection;
+  const documentId = req.query.document;
+  console.log("Reading data from collection:", collectionName, "Document ID:", documentId);
+  if (!collectionName) {
+    return res.status(400).json({ error: 'Collection name is required' });
+  }
+  try {
+    const data = await readDataFromFirestore(collectionName, documentId);
+    return res.json(data);
+  } catch (error) {
+    console.error("Error reading data from Firestore:", error);
+    return res.status(500).json({ error: error.message });
+  }
+}
+);
+
+app.post('/server/write-data', async (req, res) => {
+  const collectionName = req.query.collection;
+  const data = req.body;
+  console.log("Writing data to collection:", collectionName, "Data:", data);
+  if (!collectionName || !data) {
+    return res.status(400).json({ error: 'Collection name and data are required' });
+  }
+  try {
+    await writeDataToFirestore(collectionName, data);
+    return res.json({ message: 'Data written successfully' });
+  } catch (error) {
+    console.error("Error writing data to Firestore:", error);
+    return res.status(500).json({ error: error.message });
+  }
+}
+);
 
 // Start the server
 app.listen(port, () => {

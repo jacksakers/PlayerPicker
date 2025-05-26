@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Player Picker</title>
+  <link rel="stylesheet" href="./stylesheets/style.css">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+  >
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+</head>
+
+<body>
+  <!--Navigation bar-->
+  <div id="nav-placeholder"></div>
+  <script>
+    $(function () {
+      $("#nav-placeholder").load("navbar.html");
+    });
+  </script>
+  <!--end of Navigation bar-->
+
+
+
+  <div id="login-section" class="container">
+    <input type="text" placeholder="Username" id="username" style="display: none;">
+    <input type="text" placeholder="Email" id="email">
+    <input type="password" placeholder="Password" id="password">
+    <input type="password" placeholder="Confirm Password" id="confirm-password" style="display: none;">
+  </div>
+
+  <div id="auth-buttons">
+    <button id="signup-button" style="display: none;">Sign Up</button>
+    <button id="signin-button">Sign In</button>
+    <button id="toggle-auth-button">Switch to Sign Up</button>
+  </div>
+
+  <script type="module" src="./javascripts/login.js"></script>
+</body>
+
+</html>
