@@ -105,20 +105,20 @@ app.get('/server/read-data', async (req, res) => {
 
 app.post('/server/write-data', async (req, res) => {
   const collectionName = req.query.collection;
+  const docID = req.query.document;
   const data = req.body;
-  console.log("Writing data to collection:", collectionName, "Data:", data);
+  console.log("Writing data to collection:", collectionName, "Document ID:", docID, "Data:", data);
   if (!collectionName || !data) {
     return res.status(400).json({ error: 'Collection name and data are required' });
   }
   try {
-    await writeDataToFirestore(collectionName, data);
+    await writeDataToFirestore(collectionName, data, docID);
     return res.json({ message: 'Data written successfully' });
   } catch (error) {
     console.error("Error writing data to Firestore:", error);
     return res.status(500).json({ error: error.message });
   }
-}
-);
+});
 
 // Start the server
 app.listen(port, () => {

@@ -16,6 +16,7 @@ const {
   where,
   addDoc,
   getDoc,
+  updateDoc,
 } = require("firebase/firestore");
 const firebaseAPIKey = require("./apiKeys").firebaseAPIKey;
 const firebaseConfig = {
@@ -94,11 +95,17 @@ const readDataFromFirestore = async (collectionName, documentId = null) => {
   }
 };
 
-const writeDataToFirestore = async (collectionName, data) => {
+const writeDataToFirestore = async (collectionName, data, docID = null) => {
   try {
     const collectionRef = collection(db, collectionName);
-    const docRef = await addDoc(collectionRef, data);
-    return docRef.id; // Return the ID of the newly created document
+    let docRef;
+    if (docID) {
+      docRef = doc(collectionRef, docID);
+      await updateDoc(docRef, data);
+    } else {
+      docRef = await addDoc(collectionRef, data);
+    }
+    return docRef.id; // Return the ID of the document
   } catch (error) {
     console.error("Error writing data to Firestore:", error);
     throw error;

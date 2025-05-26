@@ -57,9 +57,13 @@ async function readDataFromFirestore(collectionName, documentId = null) {
 }
 
 // Function to write data to the Firestore database
-async function writeDataToFirestore(collectionName, data) {
+async function writeDataToFirestore(collectionName, data, docID = null) {
     try {
-        const response = await fetch(`/server/write-data?collection=${collectionName}`, {
+        let url = `/server/write-data?collection=${collectionName}`;
+        if (docID) {
+            url += `&document=${docID}`;
+        }
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
